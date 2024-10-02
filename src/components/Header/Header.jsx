@@ -3,15 +3,24 @@ import { Link } from 'react-router-dom';
 import { CiSearch, CiShoppingCart } from 'react-icons/ci';
 import { MdDelete } from 'react-icons/md';
 import { cartState } from '../../CartContext/CartContextProvider';
+import UserAvatar from '../userImage/UserImage';
 
 function Header() {
-  const { state: { cart },dispatch,productState:{searchQuery},productDispatch } = cartState();
-  
+  const {
+    state: { cart },
+    dispatch,
+    productDispatch,
+    loginData,
+  } = cartState();
+
+  const localData = JSON.parse(localStorage.getItem('loginData')) || {};
+  const localUsername = localData.username;
+
   return (
     <header className="p-4 w-full">
       <div className="bg-slate-400 flex items-center justify-between p-4">
         {/* Logo or Title */}
-        <Link to="" className="text-2xl font-bold">
+        <Link to="/" className="text-2xl font-bold">
           SHOPPING CART
         </Link>
 
@@ -21,15 +30,12 @@ function Header() {
             type="text"
             placeholder="Search for products..."
             className="border-none outline-none w-60"
-            onChange={(e)=>{
+            onChange={(e) => {
               productDispatch({
                 type: "FILTER_BY_SEARCH",
-                payload:e.target.value,
-
-
-  
-            })}
-          }
+                payload: e.target.value,
+              });
+            }}
           />
           <button>
             <CiSearch className="text-2xl" />
@@ -38,7 +44,7 @@ function Header() {
 
         {/* Cart with Hover Dropdown */}
         <div className="relative group">
-          <Link to="cart" className="flex items-center justify-center gap-1 bg-slate-500 p-3 rounded-md">
+          <Link to="/cart" className="flex items-center justify-center gap-1 bg-slate-500 p-3 rounded-md">
             <CiShoppingCart size={32} />
             <p>{cart.length}</p>
           </Link>
@@ -57,8 +63,8 @@ function Header() {
                       <img src={prod.image} alt="Product" className="w-20 h-20 rounded-full" />
                       <h1>{prod.name}</h1>
                     </span>
-                    <button onClick={()=>{
-                      dispatch({type: "REMOVE_FROM_CART", payload: prod.id})
+                    <button onClick={() => {
+                      dispatch({ type: "REMOVE_FROM_CART", payload: prod.id });
                     }}>
                       <MdDelete size={20} />
                     </button>
@@ -68,7 +74,7 @@ function Header() {
                 <p>Your cart is empty.</p>
               )}
 
-              <Link to="cart" className="block mt-2 text-blue-500 hover:underline">
+              <Link to="/cart" className="block mt-2 text-blue-500 hover:underline">
                 View Cart
               </Link>
             </div>
@@ -76,11 +82,16 @@ function Header() {
         </div>
 
         {/* Links */}
-        <div className="flex gap-4">
-          <Link to="login" className="text-lg font-medium">
-            Login
-          </Link>
-          <Link to="signup" className="text-lg font-medium">
+        <div className="flex gap-4 items-center">
+          {loginData.username ? (
+            <UserAvatar username={loginData.username} />
+          ) : (
+            <Link to="/login" className="text-lg font-medium">
+              Login
+            </Link>
+          )}
+
+          <Link to="/signup" className="text-lg font-medium">
             Signup
           </Link>
         </div>

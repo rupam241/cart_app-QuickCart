@@ -8,7 +8,8 @@ import Home from './components/Home/Home.jsx'
 import Cart from './components/Cart/Cart.jsx'
 import Login from './components/Login/Login.jsx'
 import SIgnup from './components/SignUp/SIgnup.jsx'
-import CartContextProvider from './CartContext/CartContextProvider.jsx'
+import CartContextProvider, { cartState } from './CartContext/CartContextProvider.jsx'
+
 
 
 const router = createBrowserRouter(
@@ -29,8 +30,11 @@ const router = createBrowserRouter(
   )
 )
 
+
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    
     {/* CartContextProvider should wrap the entire app */}
     <CartContextProvider>
       <RouterProvider router={router} />

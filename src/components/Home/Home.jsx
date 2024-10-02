@@ -5,7 +5,7 @@ import { cartState } from '../../CartContext/CartContextProvider';
 
 function Home() {
   const { state: { products }, productState: { byRating, byStock, sort, byFastDelivery, searchQuery } } = cartState();
-  console.log(products);
+  
 
   const transformProduct = () => {
     let sortedProducts = [...products]; // Create a copy to avoid mutating the original array

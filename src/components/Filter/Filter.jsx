@@ -8,7 +8,7 @@ function Filter() {
   
   const [rate, setRate] = useState();
 
-  console.log(byRating, byStock, byFastDelivery, sort, searchQuery);
+  // console.log(byRating, byStock, byFastDelivery, sort, searchQuery);
 
   return (
     <>

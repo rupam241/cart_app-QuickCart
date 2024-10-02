@@ -22,6 +22,7 @@ const cartReducer = (state, action) => {
                 )
             };
 
+          
 
 
         default:
@@ -85,4 +86,27 @@ export const productReducer = (state, action) => {
     }
 }
 
+// CartReducer.js
+export const loginValue = (state, action) => {
+    switch (action.type) {
+        case 'LOGIN':
+            return {
+                ...state,
+                username: action.payload.username,
+                password: action.payload.password,
+                isLoggedIn: action.payload.isLoggedIn,
+                image: action.payload.image,
+            };
+        case 'LOGOUT':
+            return {
+                username: '',
+                password: '',
+                isLoggedIn: false,
+                image: '',
+            };
+        default:
+            return state;
+    }
+};
+  
 export default cartReducer;

@@ -1,19 +1,16 @@
-import React, { useReducer, useContext } from "react";
+import React, { useReducer, useContext, useEffect } from "react";
 import Cartcontext from "./Context";
 import { faker } from "@faker-js/faker"; 
-import cartReducer from "./CartReducer";
-import { productReducer } from "./CartReducer";
-
-// faker.seed(99);
+import cartReducer, { productReducer, loginValue } from "./CartReducer"; 
 
 const CartContextProvider = ({ children }) => {
     // Creating an array of products using faker
     const products = [...Array(20)].map(() => ({
-        id: faker.string.uuid(),  // Correct method for generating UUID (use faker.datatype.uuid() if needed)
+        id: faker.string.uuid(),
         name: faker.commerce.productName(),
-        price: faker.number.int({ min: 10, max: 1000 }), // Price generation
-        image: faker.image.url(200, 200), // Ensure this method works in your version of Faker
-        inStock: faker.number.int({ min: 0, max: 10 }), // Returns a number between 0 and 10
+        price: faker.number.int({ min: 10, max: 1000 }),
+        image: faker.image.url(200, 200),
+        inStock: faker.number.int({ min: 0, max: 10 }),
         fastDelivery: faker.datatype.boolean(),
         rating: faker.helpers.arrayElement([1, 2, 3, 4, 5]),
     }));
@@ -31,8 +28,26 @@ const CartContextProvider = ({ children }) => {
         searchQuery: "",
     });
 
+    // Load login data from local storage on component mount
+    const initialLoginData = JSON.parse(localStorage.getItem('loginData')) || {
+        username: '',
+        password: '',
+        isLoggedIn: false,
+        image: '',
+    };
+   
+
+    const [loginData, loginDispatch] = useReducer(loginValue, initialLoginData);
+
+    console.log(loginData);
+
+    // Update local storage whenever loginData changes
+    useEffect(() => {
+        localStorage.setItem('loginData', JSON.stringify(loginData));
+    }, [loginData]);
+
     return (
-        <Cartcontext.Provider value={{ state, dispatch, productState, productDispatch }}>
+        <Cartcontext.Provider value={{ state, dispatch, productState, productDispatch, loginData, loginDispatch }}>
             {children}
         </Cartcontext.Provider>
     );

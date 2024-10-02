@@ -8,9 +8,9 @@ function SingleProduct({ prod }) {
     state: { cart },
     dispatch,
   } = cartState();
-  useEffect(() => {
-    console.log(cart);
-  }, [cart]); // This ensures it only logs when 'cart' changes
+  // useEffect(() => {
+  //   console.log(cart);
+  // }, [cart]); // This ensures it only logs when 'cart' changes
 
   
 
